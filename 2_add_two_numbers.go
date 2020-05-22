@@ -5,32 +5,39 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func safeNode(l *ListNode) *ListNode {
+var empty = ListNode{0, nil}
+
+func safeNode(l *ListNode) ListNode {
 	if l != nil {
-		return l
+		return *l
 	}
-	return &ListNode{0, nil}
+	return empty
 }
 
-func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-	list := &ListNode{0, nil}
+func addTwoNumbers(list1 *ListNode, list2 *ListNode) *ListNode {
+	head := &ListNode{Val: 0, Next: nil}
 
-	n := list
+	n := head
 	up := 0
+	l1, l2 := list1, list2
+
 	for l1 != nil || l2 != nil {
 		s1, s2 := safeNode(l1), safeNode(l2)
+
 		sum := s1.Val + s2.Val + up
-		n.Next = &ListNode{sum % 10, nil}
 		up = sum / 10
+		n.Next = &ListNode{Val: sum % 10, Next: nil}
+
 		l1, l2 = s1.Next, s2.Next
 		n = n.Next
 	}
+
 	if up != 0 {
 		n.Next = &ListNode{up, nil}
 	}
 
-	if list.Next == nil {
-		return list
+	if head.Next == nil {
+		return head
 	}
-	return list.Next
+	return head.Next
 }
