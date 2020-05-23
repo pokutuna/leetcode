@@ -1,46 +1,23 @@
 package main
 
-func scan(s []byte, from int) (map[byte]int, int) {
-	buf := make(map[byte]int)
-	idx := 0
-
-	for i, char := range s[from:] {
-		idx = i
-		if _, ok := buf[char]; ok {
-			return buf, idx
-		} else {
-			buf[char] = i + from
-		}
-	}
-
-	return buf, idx + 1
-}
-
 func lengthOfLongestSubstring(s string) int {
-	if s == "" {
-		return 0
-	}
+	chars := []byte(s)
+	size := len(chars)
 
-	bytes := []byte(s)
-	buf, length := scan(bytes, 0)
-	scanned := length
-	if scanned == len(bytes) {
-		return length
-	}
+	buf := make(map[byte]struct{}, size)
+	length, head, last := 0, 0, 0
+	for head < size && last < size {
+		if _, ok := buf[chars[last]]; !ok {
+			buf[chars[last]] = struct{}{}
+			last++
 
-	next := buf[bytes[scanned]] + 1
-	for next < len(bytes) {
-		b, l := scan(bytes, next)
-		scanned = next + l
-
-		if l >= length {
-			length, buf = l, b
-			if scanned == len(bytes) {
-				break
+			l := last - head
+			if length < l {
+				length = l
 			}
-			next = buf[bytes[scanned]] + 1
 		} else {
-			next = next + 1
+			delete(buf, chars[head])
+			head++
 		}
 	}
 
