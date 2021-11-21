@@ -8,12 +8,19 @@ struct ZigZag {
   plus: i32,
 }
 
+use std::iter;
+
 impl ZigZag {
-  fn new(row: &i32) -> ZigZag {
-    ZigZag {
-      i: 0,
-      row: *row,
-      plus: 1,
+  // dyn 使う練習
+  fn new(row: &i32) -> Box<dyn Iterator<Item = usize>> {
+    if *row == 1 {
+      Box::new(iter::repeat(0))
+    } else {
+      Box::new(ZigZag {
+        i: 0,
+        row: *row,
+        plus: 1,
+      })
     }
   }
 }
@@ -22,10 +29,6 @@ impl Iterator for ZigZag {
   type Item = usize;
 
   fn next(&mut self) -> Option<Self::Item> {
-    if self.row == 1 {
-      return Some(0);
-    }
-
     let next = Some(self.i as usize);
 
     if self.i + self.plus >= self.row {
@@ -45,7 +48,9 @@ impl Solution {
     let mut iter = ZigZag::new(&num_rows);
 
     let mut vec = vec!["".to_string(); num_rows as usize];
+    // iter の zip したい
     for &c in s.iter() {
+      // push と Vec<char> をまとめてjoin するのどちらが速い?
       vec[iter.next().unwrap()].push(c);
     }
     vec.join("")
