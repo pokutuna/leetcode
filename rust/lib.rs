@@ -4,4 +4,5 @@ mod s003_longest_substring;
 mod s004_median_of_two_sorted_arrays;
 mod s005_longest_palindromic_substring;
 mod s006_zigzag_conversion;
+mod s007_reverse_integer;
 mod s009_palindrome_number;
