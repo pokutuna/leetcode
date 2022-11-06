@@ -1,0 +1,40 @@
+#!/bin/bash
+
+set -eo pipefail
+
+NAME=$1
+ROOT=$(cd $(dirname "$0") && pwd)
+
+err() {
+  echo "Error: $*" >&2
+}
+
+if [ -z "$NAME" ]; then
+  err "Must give a name"
+  exit 1
+fi
+
+cd $ROOT
+
+echo -e "mod $NAME;" >> lib.rs
+cat lib.rs | sort | uniq > tmp && mv tmp lib.rs
+
+cat <<EOS > ${NAME}.rs
+impl Solution {
+
+}
+
+// ------
+
+struct Solution {}
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  #[test]
+  fn test {
+
+  }
+}
+EOS
