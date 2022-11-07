@@ -19,6 +19,8 @@ cd $ROOT
 echo -e "mod $NAME;" >> lib.rs
 cat lib.rs | sort | uniq > tmp && mv tmp lib.rs
 
+NUMBER=$(echo ${NAME} | tr -dc '0-9')
+
 cat <<EOS > ${NAME}.rs
 impl Solution {
 
@@ -33,7 +35,7 @@ mod tests {
   use super::*;
 
   #[test]
-  fn test {
+  fn test_${NUMBER}() {
 
   }
 }
