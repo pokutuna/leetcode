@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 impl Solution {
     /// nums expects sorted
-    fn two_sum(nums: &[i32], result: &mut Vec<Vec<i32>>) {
+    fn two_sum(nums: &[i32], result: &mut HashSet<(i32, i32, i32)>) {
         if nums.len() < 3 {
             return;
         }
@@ -13,8 +13,7 @@ impl Solution {
         while l < r {
             let sum = n + nums[l] + nums[r];
             if sum == 0 {
-                let v = vec![n, nums[l], nums[r]];
-                result.push(v);
+                result.insert((n, nums[l], nums[r]));
                 l += 1;
             } else if sum < 0 {
                 l += 1;
@@ -28,18 +27,12 @@ impl Solution {
         let mut nums = nums;
         nums.sort();
 
-        let mut result: Vec<Vec<i32>> = vec![];
+        let mut result: HashSet<(i32, i32, i32)> = HashSet::new();
         for i in 0..nums.len() {
             Self::two_sum(&nums[i..], &mut result);
         }
 
-        result
-            .iter()
-            .map(|v| (v[0], v[1], v[2]))
-            .collect::<HashSet<(i32, i32, i32)>>()
-            .iter()
-            .map(|t| vec![t.0, t.1, t.2])
-            .collect()
+        result.into_iter().map(|t| vec![t.0, t.1, t.2]).collect()
     }
 }
 
