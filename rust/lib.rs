@@ -12,4 +12,5 @@ mod s012_integer_to_roman;
 mod s013_roman_to_integer;
 mod s014_longest_common_prefix;
 mod s015_3sum;
+mod s016_3sum_closest;
 mod s1323_maximum_69_number;
