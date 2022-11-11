@@ -28,8 +28,15 @@ impl Solution {
         nums.sort();
 
         let mut result: HashSet<(i32, i32, i32)> = HashSet::new();
-        for i in 0..nums.len() {
+        let mut i = 0;
+        while i < nums.len() {
+            // skip checked value
+            if 1 <= i && nums[i - 1] == nums[i] {
+                i += 1;
+                continue;
+            }
             Self::two_sum(&nums[i..], &mut result);
+            i += 1;
         }
 
         result.into_iter().map(|t| vec![t.0, t.1, t.2]).collect()
