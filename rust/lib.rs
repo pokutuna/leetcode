@@ -14,3 +14,4 @@ mod s014_longest_common_prefix;
 mod s015_3sum;
 mod s016_3sum_closest;
 mod s1323_maximum_69_number;
+mod s295_find_median_from_data_stream;
